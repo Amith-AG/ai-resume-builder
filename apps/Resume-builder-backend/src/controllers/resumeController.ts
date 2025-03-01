@@ -1,23 +1,47 @@
-import { Request, Response } from "express";
-import Resume from "../models/Resume";
+import { Request, Response, NextFunction } from "express";
 
-// Create a new resume
-export const createResume = async (req: Request, res: Response) => {
+// Get resume by ID
+export const getResumeById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const resume = new Resume(req.body);
-    await resume.save();
-    res.status(201).json(resume);
+    const resume = {}; // Replace with actual DB query
+    if (!resume) {
+      res.status(404).json({ message: "Resume not found" });
+      return;
+    }
+    res.json(resume);
   } catch (error) {
-    res.status(500).json({ message: "Error creating resume", error });
+    next(error);
   }
 };
 
-// Get all resumes
-export const getResumes = async (req: Request, res: Response) => {
+// Update resume
+export const updateResume = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const resumes = await Resume.find({});
-    res.json(resumes);
+    const updatedResume = {}; // Replace with actual DB update logic
+    res.json({ message: "Resume updated", resume: updatedResume });
   } catch (error) {
-    res.status(500).json({ message: "Error fetching resumes", error });
+    next(error);
+  }
+};
+
+// Delete resume
+export const deleteResume = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Replace with actual delete logic
+    res.json({ message: "Resume deleted" });
+  } catch (error) {
+    next(error);
   }
 };
